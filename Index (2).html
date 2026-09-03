@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบเตรียมความพร้อมประเมิน PA 2569 - นายไตรรัตน์ จันทร์มาศ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #172554;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --secondary-light: #e0f2fe;
+      --accent: #d97706;
+      --accent-light: #fef3c7;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --danger: #dc2626;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0369a1 100%);
+      color: white;
+      padding: 28px 24px;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 20px -5px rgba(30, 58, 138, 0.25);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    header h1 { font-size: 22px; font-weight: 700; }
+    header p { font-size: 14.5px; opacity: 0.9; }
+
+    .tag-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+    }
+
+    /* Navigation Tabs */
+    .tab-bar {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px;
+      display: flex;
+      gap: 6px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Content Panels */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    .card.highlight {
+      border: 2px solid var(--secondary);
+      box-shadow: 0 8px 16px -4px rgba(2, 132, 199, 0.12);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-slide {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-time {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Speech & Actions */
+    .cue-box {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13.5px;
+      color: #92400e;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .cue-webapp {
+      background: var(--secondary-light);
+      border-left: 4px solid var(--secondary);
+      color: #0369a1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-webapp-launch {
+      background: var(--secondary);
+      color: white;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-webapp-launch:hover { background: #02669c; }
+
+    .speech {
+      font-size: 16.5px;
+      color: var(--text);
+    }
+    .speech p { margin-bottom: 10px; }
+
+    .hl-kw {
+      color: var(--primary);
+      font-weight: 600;
+      background: #dbeafe;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .hl-em {
+      font-weight: 600;
+      color: #b45309;
+    }
+
+    /* Q&A Style */
+    .qa-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .qa-num {
+      background: var(--primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .qa-question {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.5;
+    }
+
+    .qa-intent {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 13px;
+      color: #92400e;
+      margin-bottom: 12px;
+    }
+
+    .qa-answer {
+      font-size: 15px;
+      color: var(--text);
+      background: #fdfdfd;
+      border: 1px solid #f1f5f9;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .qa-answer ul { margin-left: 20px; margin-top: 6px; }
+
+    /* References Style */
+    .ref-item {
+      padding: 14px;
+      border-bottom: 1px dashed var(--border);
+      font-size: 14px;
+    }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-title { font-weight: 600; color: #0f172a; }
+    .ref-meta { color: var(--text-muted); font-size: 13px; margin: 3px 0; }
+    .ref-connect { color: var(--success); font-weight: 500; font-size: 13px; }
+
+    /* Print */
+    @media print {
+      body { background: white; padding: 0; font-size: 13px; }
+      header { background: none; color: black; border-bottom: 1px solid #ccc; padding: 10px 0; box-shadow: none; }
+      .tab-bar, .btn-webapp-launch { display: none; }
+      .tab-content { display: block !important; }
+      .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; margin-bottom: 12px; padding: 12px; }
+      .tag { border: 1px solid #ccc; color: black; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div>
+        <h1>ระบบเตรียมความพร้อมประเมิน PA 2569</h1>
+        <p>นายไตรรัตน์ จันทร์มาศ | ตำแหน่งครู โรงเรียนรัฐราษฎร์อุปถัมภ์ สพม.ราชบุรี</p>
+      </div>
+    </div>
+    <div class="tag-grid">
+      <span class="tag">🎯 5E ร่วมกับ Casio fx-991CW</span>
+      <span class="tag">📐 ม.5/1 เวกเตอร์ (40 คน)</span>
+      <span class="tag">ระดับคาดหวัง: ปรับประยุกต์ (Apply & Adapt)</span>
+    </div>
+  </header>
+
+  <!-- Tabs Navigation -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('script-tab')">
+      🗣️ สคริปต์นำเสนอ (สไลด์ 1-38)
+    </button>
+    <button class="tab-btn" onclick="switchTab('qa-tab')">
+      ❓ 10 คำถาม-ตอบกรรมการ
+    </button>
+    <button class="tab-btn" onclick="switchTab('ref-tab')">
+      📚 งานวิจัยอ้างอิง (5E & Math)
+    </button>
+    <button class="tab-btn" onclick="window.print()" style="flex:0; padding: 10px 16px;">
+      🖨️ พิมพ์
+    </button>
+  </div>
+
+  <!-- TAB 1: PRESENTATION SCRIPT -->
+  <div id="script-tab" class="tab-content active">
+
+    <!-- Section 1 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span>1. บทนำและข้อมูลภาระงาน</span>
+          <span class="badge-slide">สไลด์ 1 - 2</span>
+        </div>
+        <span class="badge-time">⏱ 0:00 - 1:30 น.</span>
+      </div>
+      <div class="cue-box">
+        👋 <strong>ท่าทาง:</strong> ไหว้ทักทายคณะกรรมการด้วยความเคารพ ยิ้มแย้ม มั่นใจ
+      </div>
+      <div class="speech">
+        <p>"กราบเรียน <strong>ท่านประธานและคณะกรรมการประเมินผลการพัฒนางานตามข้อตกลงทุกท่านครับ</strong>"</p>
+        <p>"กระผม <strong>นายไตรรัตน์ จันทร์มาศ</strong> ตำแหน่งครู กลุ่มสาระการเรียนรู้คณิตศาสตร์ โรงเรียนรัฐราษฎร์อุปถัมภ์ สังกัดสำนักงานเขตพื้นที่การศึกษามัธยมศึกษาราชบุรี ครับ ในรอบการประเมินปีงบประมาณ 2569 นี้ กระผมมีภาระงานสอนรายวิชาคณิตศาสตร์เพิ่มเติม ระดับชั้น ม.4, ม.5 และ ม.6 รวมทั้งปฏิบัติงานสนับสนุนการเรียนรู้ งานวัดผลประเมินผล งานพัฒนาสื่อนวัตกรรม และกิจกรรมชุมชนแห่งการเรียนรู้ทางวิชาชีพ (PLC) ครบถ้วนตามเกณฑ์ที่ ก.ค.ศ. กำหนดครับ"</p>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span>2. ที่มา สภาพปัญหา และประเด็นท้าทาย</span>
+          <span class="badge-slide">สไลด์ 3 - 4</span>
+        </div>
+        <span class="badge-time">⏱ 1:30 - 3:30 น.</span>
+      </div>
+      <div class="cue-box">
+        🎯 <strong>จุดเน้น:</strong> เน้นเสียงหนักแน่นที่คำว่า <em>"ปรับประยุกต์"</em> ตามเกณฑ์ คศ.1
+      </div>
+      <div class="speech">
+        <p>"สำหรับ <strong>ประเด็นท้าทาย</strong> ในปีงบประมาณนี้ กระผมมุ่งเน้น: <span class="hl-em">'การพัฒนาผลลัพธ์การเรียนรู้เรื่องขนาดของเวกเตอร์และเวกเตอร์หนึ่งหน่วย ผ่านการจัดการเรียนรู้แบบสืบเสาะหาความรู้ 5E ร่วมกับเครื่องคิดเลข Casio เพื่อส่งเสริมความสามารถในการแก้ปัญหาทางคณิตศาสตร์ ของนักเรียนชั้นมัธยมศึกษาปีที่ 5/1'</span> ครับ"</p>
+        <p>"<strong>สภาพปัญหาจริงในชั้นเรียน:</strong> นักเรียนส่วนใหญ่สามารถจำสูตรและคำนวณตามขั้นตอนได้ แต่เมื่อโจทย์มีการประยุกต์หรือเปลี่ยนบริบท นักเรียนจะไม่สามารถวิเคราะห์โจทย์ได้ และยังขาดความเข้าใจเชิงมโนทัศน์ว่า <em>'ขนาดของเวกเตอร์กับเวกเตอร์หนึ่งหน่วยเชื่อมโยงสัมพันธ์กันอย่างไร'</em>"</p>
+        <p>"ด้วยระดับการปฏิบัติที่คาดหวังของตำแหน่งครู คศ.1 คือ <span class="hl-kw">การปรับประยุกต์ (Apply & Adapt)</span> กระผมจึงได้นำวงจรคุณภาพ <strong>PDCA</strong> มาบูรณาการเข้ากับกระบวนการจัดการเรียนรู้แบบสืบเสาะ <strong>5E</strong> โดยปรับประยุกต์นำเครื่องคิดเลขวิทยาศาสตร์ <span class="hl-kw">Casio fx-991CW</span> เข้ามาเป็นเครื่องมือสำคัญ เพื่อเปิดโอกาสให้นักเรียนได้ <em>'สำรวจ ทดลอง และค้นพบความสัมพันธ์ทางคณิตศาสตร์ด้วยตนเอง'</em> ครับ"</p>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span>3. กระบวนการจัดกิจกรรม (P-D-C)</span>
+          <span class="badge-slide">สไลด์ 5 - 6</span>
+        </div>
+        <span class="badge-time">⏱ 3:30 - 6:00 น.</span>
+      </div>
+      <div class="cue-box">
+        💡 <strong>ชี้ภาพกระบวนการ:</strong> เน้นขั้น Explore & Explain ที่นักเรียนค้นพบสูตร u = v/|v|
+      </div>
+      <div class="speech">
+        <p>"การขับเคลื่อนกระบวนการเรียนรู้สู่ห้องเรียนจริง มี 3 ขั้นตอนหลักครับ:</p>
+        <p><strong>1. ขั้นวางแผน (Plan):</strong> วิเคราะห์หลักสูตรและกำหนดกลุ่มเป้าหมายนักเรียนชั้น ม.5/1 จำนวน 40 คน ออกแบบแผน 5E และจัดทำใบกิจกรรมที่เน้นการค้นพบมโนทัศน์<br>
+        <strong>2. ขั้นดำเนินการจัดการเรียนรู้ (Do):</strong> ดำเนินการสอน 5 ขั้นตอน โดยหัวใจสำคัญอยู่ที่ขั้น <strong>Explore</strong> นักเรียนใช้ฟังก์ชันเวกเตอร์ในเครื่องคิดเลข Casio ทดลองคำนวณขนาดเวกเตอร์เมื่อหารด้วยสเกลาร์ค่าต่าง ๆ จนนำไปสู่ขั้น <strong>Explain</strong> ที่นักเรียนร่วมกันอภิปรายจนค้นพบด้วยตนเองว่า <em>'เมื่อนำเวกเตอร์ใด ๆ มาหารด้วยขนาดของตัวมันเอง จะได้เวกเตอร์ใหม่ที่มีขนาดเท่ากับ 1 เสมอ'</em> ซึ่งนำไปสู่สูตร \( u = \frac{\vec{v}}{|\vec{v}|} \) จากความเข้าใจที่แท้จริง ไม่ใช่การท่องจำ จากนั้นจึงนำไปสู่ขั้น <strong>Elaborate</strong> ในการแก้ปัญหาโจทย์ประยุกต์ที่ซับซ้อนขึ้น<br>
+        <strong>3. ขั้นตรวจสอบ (Check):</strong> ประเมินผลรอบด้าน ทั้งแบบทดสอบหลังเรียน แบบประเมินทักษะแก้ปัญหา 4 ขั้นตอน (วิเคราะห์-วางแผน-ดำเนินการ-ตรวจสอบ) และการสังเกตพฤติกรรมการเรียนรู้ครับ"</p>
+      </div>
+    </div>
+
+    <!-- Section 4: CLIMAX + WEB APP -->
+    <div class="card highlight" id="webapp-section">
+      <div class="card-head">
+        <div class="card-title">
+          <span style="color:#0284c7;">4. ผลลัพธ์การพัฒนา (เชื่อมต่อ Web App Dashboard)</span>
+          <span class="badge-slide" style="background:#e0f2fe; color:#0369a1;">สไลด์หน้า 34</span>
+        </div>
+        <span class="badge-time">⏱ 6:00 - 8:00 น.</span>
+      </div>
+      <div class="cue-box cue-webapp">
+        <span>💻 <strong>จังหวะไฮไลต์:</strong> คลิกสลับหน้าต่างไปยังแท็บ Web App สารสนเทศแบบ Real-Time</span>
+        <a href="https://script.google.com/macros/s/AKfycbyEl9zDCXFDytRVgQvGc8_XySUWr-b2VYVwc9F0lDRao4GOCKxUqFzXlKrpk1nw/exec" target="_blank" class="btn-webapp-launch">
+          🚀 เปิด Web App จริง
+        </a>
+      </div>
+      <div class="speech">
+        <p>"ในส่วนของ <strong>ผลลัพธ์การพัฒนา</strong> จากการจัดกิจกรรมการเรียนรู้ครับ"</p>
+        <p>"ด้านเชิงปริมาณ นักเรียนชั้น ม.5/1 สามารถบรรลุตามเป้าหมายตัวชี้วัดความสำเร็จที่กำหนดไว้ทุกด้าน ทั้งผลสัมฤทธิ์ทางการเรียนและการแก้ปัญหาทางคณิตศาสตร์ที่ผ่านเกณฑ์ร้อยละ 70 สูงเกินกว่าร้อยละ 80 ของนักเรียนทั้งหมด รวมถึงสามารถใช้เครื่องมือ Casio ในการสำรวจและตรวจสอบคำตอบได้อย่างมีประสิทธิภาพครับ"</p>
+        <p style="background: #f0f9ff; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #0284c7; margin-bottom: 10px;">
+          *(คลิกสลับแท็บไปยังหน้า Dashboard)*<br>
+          "และเพื่อให้คณะกรรมการได้เห็น <strong>ข้อมูลเชิงประจักษ์แบบ Real-time โปร่งใส และตรวจสอบได้</strong> กระผมได้จัดเก็บและประมวลผลข้อมูลเข้าสู่ <span class="hl-kw">ระบบรายงานผลและสารสนเทศออนไลน์ (Web App)</span> หน้านี้ครับ ซึ่งแสดงทั้งแผนภูมิการกระจายตัวของคะแนนสอบหลังเรียนของนักเรียนทั้ง 40 คน และคะแนนทักษะกระบวนการแก้ปัญหา 4 ขั้นตอนรายบุคคลตามรูบริกส์ อีกทั้งยังใช้เป็นระบบสารสนเทศผู้เรียนตามมาตรฐานตำแหน่งด้านที่ 2 อีกด้วยครับ"
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span>5. การสะท้อนผล ปรับปรุง ต่อยอด (Act) และสรุปจบ</span>
+          <span class="badge-slide">สไลด์ 35 - 38</span>
+        </div>
+        <span class="badge-time">⏱ 8:00 - 9:30 น.</span>
+      </div>
+      <div class="cue-box">
+        🙏 <strong>ท่าทาง:</strong> สลับจอกลับมาหน้าสไลด์ขอบคุณ เอ่ยชื่อคณะกรรมการทุกท่านพร้อมไหว้
+      </div>
+      <div class="speech">
+        <p>"สำหรับ <strong>ขั้นการสะท้อนผลและต่อยอด (Act):</strong> จากการจัดการเรียนรู้พบว่า ยังมีนักเรียนบางส่วนที่ต้องการเวลาเพิ่มเติมในการตีความโจทย์สถานการณ์จริง กระผมจึงได้นำข้อค้นพบนี้เข้าสู่กระบวนการ <span class="hl-kw">PLC ของกลุ่มสาระการเรียนรู้คณิตศาสตร์</span> เพื่อร่วมกันพัฒนาชุดกิจกรรมฝึกทักษะเสริมแบบขั้นบันได (Scaffolding) และเตรียมต่อยอดการจัดการเรียนรู้ 5E ร่วมกับเทคโนโลยี Casio ไปสู่เนื้อหาเวกเตอร์เรื่องอื่น เช่น ผลคูณเชิงสเกลาร์ (Dot Product) ต่อไปครับ"</p>
+        <p>"กระผมขอกราบขอบพระคุณ <strong>ท่านผู้อำนวยการธีระเดช บัวล้อม</strong>, <strong>ท่านศึกษานิเทศก์จิตรภณ รัตนฉายาบรรณ</strong> และ <strong>ท่านครูชำนาญการพิเศษ บุญมี ดีแสน</strong> เป็นอย่างสูงครับ ขอเรียนเชิญคณะกรรมการทุกท่านให้ข้อเสนอแนะเพื่อการพัฒนาในลำดับต่อไป ขอบคุณครับ"</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 2: 10 Q&A -->
+  <div id="qa-tab" class="tab-content">
+    
+    <!-- Q1 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q1</span>
+        <div class="qa-question">ทำไมถึงเลือก 5E ในวิชาคณิตศาสตร์เรื่องเวกเตอร์ ทั้งที่นิยมใช้ในวิชาวิทยาศาสตร์?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: ความเข้าใจเชิงทฤษฎีและการนำมาปรับประยุกต์กับคณิตศาสตร์</div>
+      <div class="qa-answer">
+        "เวกเตอร์มีนามธรรมสูง หากสอนแบบบอกสูตรเด็กจะจำแต่ไม่เข้าใจมโนทัศน์ กระผมจึง <strong>ปรับประยุกต์ 5E</strong> โดยเปลี่ยนขั้น <strong>Explore</strong> ให้นักเรียนใช้ Casio เป็นห้องทดลองทางคณิตศาสตร์ เพื่อทดลองคำนวณและเห็นรูปแบบ (Patterns) ด้วยตนเอง แล้วจึงเชื่อมสู่ขั้น <strong>Explain</strong> สรุปเป็นสูตรตามแนวคิด Constructivism ครับ"
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q2</span>
+        <div class="qa-question">การให้นักเรียนใช้ Casio fx-991CW ไม่ทำให้ทักษะการคำนวณของเด็กลดลงหรือ?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: วัตถุประสงค์ของการใช้เทคโนโลยีในฐานะสื่อการเรียนรู้</div>
+      <div class="qa-answer">
+        "เราไม่ได้ใช้เครื่องคิดเลขเพื่อหาคำตอบลัดเพียงอย่างเดียว แต่ใช้เป็น <strong>เครื่องมือสำรวจและตรวจสอบ (Exploratory & Verification Tool)</strong> เพราะการคิดเลขติดกรณฑ์ที่ซับซ้อนมักดึงสมาธิเด็กออกจากแนวคิดหลัก การมี Casio ช่วยคำนวณทำให้เด็กมองเห็นความสัมพันธ์ของเวกเตอร์ได้ชัดเจนขึ้น และใช้ตรวจสอบยืนยันคำตอบของตนเองครับ"
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q3</span>
+        <div class="qa-question">ระดับคาดหวังของ คศ.1 คือ 'การปรับประยุกต์' (Apply & Adapt) ในแผนนี้ปรับประยุกต์อย่างไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: การตอบตรงระดับวิทยฐานะตามเกณฑ์ วPA</div>
+      <div class="qa-answer">
+        "ปรับประยุกต์ 2 ด้านครับ: 1) ปรับวิธีสอนจากเดิมที่บรรยาย มาใช้กระบวนการสืบเสาะ 5E ร่วมกับสถานการณ์จริง และ 2) ปรับประยุกต์นำฟังก์ชัน Vector บน Casio fx-991CW มาผสานกับใบกิจกรรม เพื่อให้นักเรียนสังเคราะห์ตัวเลขเป็นมโนทัศน์เวกเตอร์หนึ่งหน่วยด้วยตนเองครับ"
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q4</span>
+        <div class="qa-question">วัด 'ความสามารถในการแก้ปัญหาทางคณิตศาสตร์' อย่างไร มีเกณฑ์อย่างไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: เครื่องมือวัดและประเมินผลมีความน่าเชื่อถือตามหลักวิชาการ</div>
+      <div class="qa-answer">
+        "ประเมินตามกระบวนการ 4 ขั้นตอนของโพลยา (Polya) คือ วิเคราะห์โจทย์, วางแผน, ดำเนินการ และตรวจคำตอบ โดยใช้ <strong>Rubric Score 4 ระดับ</strong> กำหนดเกณฑ์ผ่านระดับ 'ดี' ขึ้นไป (ร้อยละ 70) ซึ่งมีนักเรียนผ่านเกณฑ์มากกว่าร้อยละ 80 ตามตัวชี้วัดครับ"
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q5</span>
+        <div class="qa-question">มีนักเรียนที่ไม่ผ่านเกณฑ์ หรือกดเครื่องคิดเลขไม่คล่องไหม แก้ปัญหาอย่างไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: ระบบดูแลช่วยเหลือและพัฒนาผู้เรียนรายบุคคล</div>
+      <div class="qa-answer">
+        "มีประมาณ 10-15% ในช่วงแรกครับ กระผมแก้ปัญหาโดยจัดกลุ่มคละความสามารถแบบ <strong>เพื่อนช่วยเพื่อน (Peer Tutoring)</strong> และทำคู่มือ <strong>Quick Guide</strong> สรุปปุ่มกดฟังก์ชันเวกเตอร์ พร้อมจัดคาบซ่อมเสริม ทำให้นักเรียนกลุ่มนี้สามารถเรียนรู้ทันเพื่อนและผ่านเกณฑ์ได้ครบถ้วนครับ"
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q6</span>
+        <div class="qa-question">Web App สารสนเทศที่จัดทำขึ้น ตอบโจทย์ PA ด้านที่ 2 อย่างไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: การบูรณาการเทคโนโลยีกับมาตรฐานตำแหน่งด้านที่ 2</div>
+      <div class="qa-answer">
+        "ช่วยในงาน <strong>จัดทำข้อมูลสารสนเทศของผู้เรียนและรายวิชา</strong> ครับ ระบบประมวลผลคะแนนสอบและคะแนนรูบริกส์แก้ปัญหาแบบ Real-time ทำให้เห็นการกระจายตัวของคะแนนและตรวจพบเด็กกลุ่มเสี่ยงได้ทันที เพื่อวางแผนช่วยเหลือได้ตรงจุดและมีความโปร่งใสครับ"
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q7</span>
+        <div class="qa-question">กระบวนการ PLC มีส่วนช่วยสนับสนุนการพัฒนางานนี้อย่างไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: การมีส่วนร่วมในชุมชนแห่งการเรียนรู้ทางวิชาชีพ (ด้านที่ 3)</div>
+      <div class="qa-answer">
+        "กระผมนำปัญหาเรื่อง <em>'เด็กคำนวณเวกเตอร์ได้แต่ไม่เข้าใจมโนทัศน์'</em> เข้าสู่วง PLC ครูในกลุ่มสาระฯ ช่วยกันวิพากษ์แผน 5E ให้คำแนะนำในการปรับคำถามกระตุ้นคิดในใบกิจกรรม และช่วยตรวจทานความเที่ยงตรงของรูบริกส์วัดการแก้ปัญหาก่อนนำไปใช้จริงครับ"
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q8</span>
+        <div class="qa-question">ในข้อตกลง PA ระบุโปรแกรม GeoGebra ไว้ด้วย มีการใช้อย่างไรควบคู่กับ Casio?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: ความสอดคล้องระหว่างข้อตกลง PA 1/ส กับการปฏิบัติจริง</div>
+      <div class="qa-answer">
+        "ในภาพรวมหน่วยเวกเตอร์ ใช้ <strong>GeoGebra</strong> ในขั้น Engage เพื่อฉายภาพจำลองเวกเตอร์ 2 มิติและ 3 มิติบนจอใหญ่ให้นักเรียนเห็นทิศทางเชิงเรขาคณิต (Visual) และใช้ <strong>Casio fx-991CW</strong> ในขั้น Explore และ Explain เพื่อให้เด็กทุกคนได้ลงมือคำนวณและทดลองด้วยตนเองในมือครับ"
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q9</span>
+        <div class="qa-question">ผลลัพธ์เชิงคุณภาพที่เปลี่ยนไปในตัวนักเรียนอย่างเห็นได้ชัดที่สุดคืออะไร?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: การเปลี่ยนแปลงพฤติกรรมและการเรียนรู้ของผู้เรียน</div>
+      <div class="qa-answer">
+        "คือ <strong>ความมั่นใจและการสื่อสารทางคณิตศาสตร์</strong> ครับ จากเดิมที่คอยถามครูว่าทำถูกไหม เปลี่ยนมาเป็นอภิปรายกับเพื่อน ใช้เครื่องมือตรวจสอบคำตอบด้วยตนเอง และสามารถอธิบายให้เพื่อนฟังได้ว่าทำไมเวกเตอร์หนึ่งหน่วยต้องหารด้วยขนาดของตัวมันเองครับ"
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="card">
+      <div class="qa-header">
+        <span class="qa-num">Q10</span>
+        <div class="qa-question">จากผลสะท้อนในขั้น Act วางแผนจะต่อยอดนวัตกรรมนี้อย่างไรต่อไป?</div>
+      </div>
+      <div class="qa-intent">🎯 กรรมการต้องการวัด: การพัฒนาอย่างต่อเนื่องและยั่งยืน (Continuous Improvement)</div>
+      <div class="qa-answer">
+        "วางแผนต่อยอด 2 ส่วนครับ: 1) ขยายรูปแบบ 5E + Casio ไปสู่เรื่อง Dot Product, Cross Product และการประยุกต์ในฟิสิกส์ และ 2) รวบรวมข้อมูลเขียนเป็นรายงานวิจัยในชั้นเรียนฉบับสมบูรณ์ เพื่อเตรียมขอมีวิทยฐานะชำนาญการในรอบถัดไปครับ"
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 3: REFERENCES -->
+  <div id="ref-tab" class="tab-content">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px;">
+        📚 งานวิจัยและเอกสารทางวิชาการอ้างอิง (Research References)
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-title">1. โมเดลการจัดการเรียนรู้แบบสืบเสาะ 5 ขั้นตอน (5E Instructional Model)</div>
+        <div class="ref-meta">Bybee, R. W., et al. (2006). <em>The BSCS 5E Instructional Model: Origins and Effectiveness.</em> Colorado Springs: BSCS.</div>
+        <div class="ref-connect">🔗 <strong>การนำไปใช้:</strong> โครงสร้างหลักในการจัดการเรียนรู้ 5 ขั้นตอน เปลี่ยนห้องเรียนสู่ Active Learning</div>
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-title">2. ยุทธศาสตร์การใช้เทคโนโลยีในการจัดการเรียนรู้คณิตศาสตร์</div>
+        <div class="ref-meta">National Council of Teachers of Mathematics [NCTM]. (2015). <em>Strategic Use of Technology in Teaching and Learning Mathematics.</em> Reston, VA: NCTM.</div>
+        <div class="ref-connect">🔗 <strong>การนำไปใช้:</strong> ยืนยันบทบาทของเครื่องคิดเลขวิทยาศาสตร์ในฐานะเครื่องมือช่วยสร้างมโนทัศน์และการแก้ปัญหา</div>
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-title">3. คู่มือการจัดการเรียนรู้กลุ่มสาระการเรียนรู้คณิตศาสตร์ (ฉบับปรับปรุง 2560)</div>
+        <div class="ref-meta">สถาบันส่งเสริมการสอนวิทยาศาสตร์และเทคโนโลยี [สสวท.]. (2560). กรุงเทพฯ: โรงพิมพ์คุรุสภาลาดพร้าว.</div>
+        <div class="ref-connect">🔗 <strong>การนำไปใช้:</strong> กรอบตัวชี้วัดและมาตรฐานการเรียนรู้เรื่องเวกเตอร์ในระดับชั้นมัธยมศึกษาตอนปลาย</div>
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-title">4. กระบวนการแก้ปัญหาทางคณิตศาสตร์ 4 ขั้นตอน</div>
+        <div class="ref-meta">Polya, G. (1957). <em>How to Solve It: A New Aspect of Mathematical Method.</em> Princeton University Press.</div>
+        <div class="ref-connect">🔗 <strong>การนำไปใช้:</strong> เกณฑ์และรูบริกส์ในการประเมินความสามารถในการแก้ปัญหา 4 ขั้นตอน</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(tabId) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    // Remove active class from buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    // Show current tab & set active button
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
